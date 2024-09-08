@@ -11,6 +11,7 @@ import 'package:prod_keeper/domain/usecases/delete_product.dart';
 import 'package:prod_keeper/domain/usecases/get_all_products.dart';
 import 'package:prod_keeper/domain/usecases/update_product.dart';
 import 'package:prod_keeper/presentation/blocs/bloc/product_bloc.dart';
+import 'package:prod_keeper/presentation/pages/splash_screen.dart';
 import 'package:prod_keeper/presentation/widget/app_layout.dart';
 
 void main() async {
@@ -24,15 +25,27 @@ void main() async {
   final repository = ProductRepoImpl(dataSource);
 
   runApp(
-    MyApp(
-      repo: repository,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => ProductBloc(
+            GetAllProducts(repository),
+            AddProduct(repository),
+            UpdateProduct(repository),
+            DeleteProduct(repository),
+          )..add(
+              LoadProducts(),
+            ),
+        ),
+      ],
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final ProductRepoImpl repo;
-  const MyApp({super.key, required this.repo});
+  // final ProductRepoImpl repo;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +53,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Prod Keeper',
       theme: ThemeData(textTheme: GoogleFonts.firaSansTextTheme()),
-      home: BlocProvider(
-        create: (context) => ProductBloc(
-          GetAllProducts(repo),
-          AddProduct(repo),
-          UpdateProduct(repo),
-          DeleteProduct(repo),
-        )..add(
-            LoadProducts(),
-          ),
-        child: const AppLayout(),
-      ),
+      home: const SplashScreen(),
     );
   }
 }
