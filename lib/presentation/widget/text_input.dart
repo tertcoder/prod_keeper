@@ -15,6 +15,12 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please complete $hintText';
+        }
+        return null;
+      },
       cursorColor: ColorPallette.textColor,
       decoration: InputDecoration(
         fillColor: ColorPallette.textColor.withOpacity(0.1),

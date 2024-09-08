@@ -1,35 +1,43 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prod_keeper/core/theme/color_pallette.dart';
+import 'package:prod_keeper/domain/entity/product.dart';
+import 'package:prod_keeper/presentation/blocs/bloc/product_bloc.dart';
 
 class ProductCard extends StatelessWidget {
-  final String title;
-  const ProductCard({super.key, required this.title});
+  final Product product;
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 220,
-      margin: const EdgeInsets.only(
-        bottom: 18,
-        left: 16,
-        right: 16,
-      ),
+      height: 250,
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          Image.asset(
-            "assets/images/T-shirt.png",
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            alignment: Alignment.topCenter,
-          ),
+          product.image
+                  .startsWith("/data/user/0/com.prodkeeper.prod_keeper/cache/")
+              ? Image.file(
+                  File(product.image),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  // height: double.infinity,
+                )
+              : Image.asset(
+                  product.image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  // height: double.infinity,
+                ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -43,7 +51,9 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "T-shirt",
+                    product.title.length > 15
+                        ? "${product.title.substring(0, 15)}..."
+                        : product.title,
                     style: GoogleFonts.firaSans(
                       color: ColorPallette.whiteColor,
                       fontSize: 18,
@@ -51,7 +61,9 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "45,000 BIF",
+                    product.price.toString().length > 9
+                        ? "${product.price.toString().substring(0, 9)}... BIF"
+                        : "${product.price} BIF",
                     style: GoogleFonts.firaSans(
                       color: ColorPallette.whiteColor,
                       fontSize: 18,
@@ -66,7 +78,15 @@ class ProductCard extends StatelessWidget {
             top: 10,
             right: 10,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.read<ProductBloc>().add(
+                      DeleteExistingProduct(
+                        product.copyWith(
+                          isDeleted: true,
+                        ),
+                      ),
+                    );
+              },
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: const BoxDecoration(

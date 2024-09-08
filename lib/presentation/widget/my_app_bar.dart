@@ -12,26 +12,25 @@ class MyAppBar extends StatelessWidget {
     return SliverAppBar(
       elevation: 0,
       centerTitle: true,
-      actions: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: ColorPallette.backgroundColor.withOpacity(0.05),
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              "assets/icons/bin.svg",
-              // color: ColorPallette.backgroundColor,
-              colorFilter: const ColorFilter.mode(
-                ColorPallette.backgroundColor,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        )
-      ],
+      // actions: [
+      //   GestureDetector(
+      //     child: Container(
+      //       padding: const EdgeInsets.all(16),
+      //       decoration: BoxDecoration(
+      //         color: ColorPallette.backgroundColor.withOpacity(0.05),
+      //         shape: BoxShape.circle,
+      //       ),
+      //       child: SvgPicture.asset(
+      //         "assets/icons/bin.svg",
+      //         // color: ColorPallette.backgroundColor,
+      //         colorFilter: const ColorFilter.mode(
+      //           ColorPallette.backgroundColor,
+      //           BlendMode.srcIn,
+      //         ),
+      //       ),
+      //     ),
+      //   )
+      // ],
       backgroundColor: ColorPallette.primaryColor,
       expandedHeight: 188,
       floating: true,

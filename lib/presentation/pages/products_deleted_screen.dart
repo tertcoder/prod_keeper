@@ -6,16 +6,20 @@ import 'package:prod_keeper/presentation/blocs/bloc/product_bloc.dart';
 import 'package:prod_keeper/presentation/widget/my_app_bar.dart';
 import 'package:prod_keeper/presentation/widget/product_card.dart';
 
-class ProductsListScreen extends StatelessWidget {
-  const ProductsListScreen({super.key});
+class ProductsDeletedScreen extends StatelessWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const ProductsDeletedScreen(),
+      );
+  const ProductsDeletedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: ColorPallette.backgroundColor,
       body: CustomScrollView(
         slivers: [
-          const MyAppBar(title: "Products"),
+          const MyAppBar(title: "Deleted"),
           BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
               if (state is ProductLoading) {
@@ -26,13 +30,13 @@ class ProductsListScreen extends StatelessWidget {
                 );
               } else if (state is ProductLoaded) {
                 final products =
-                    state.products.where((p) => !p.isDeleted).toList();
+                    state.products.where((p) => p.isDeleted).toList();
 
                 if (products.isEmpty) {
                   return SliverFillRemaining(
                     child: Center(
                       child: Text(
-                        'No Products available.\nGo on "Manage" to create one.',
+                        'No Products deleted yet.',
                         style: GoogleFonts.firaSans().copyWith(
                           color: ColorPallette.textColor,
                           fontSize: 16,
@@ -58,7 +62,7 @@ class ProductsListScreen extends StatelessWidget {
                 return SliverFillRemaining(
                   child: Center(
                     child: Text(
-                      "Failed to load products. Please try again.",
+                      "Failed to load deleted products. Please try again.",
                       style: GoogleFonts.firaSans(
                         color: ColorPallette.textColor,
                         fontSize: 16,
@@ -70,7 +74,7 @@ class ProductsListScreen extends StatelessWidget {
               }
               return SliverFillRemaining(
                 child: Text(
-                  'No Products available.\nGo on "Manage" to create one.',
+                  'No Products deleted yet.',
                   style: GoogleFonts.firaSans().copyWith(
                     color: ColorPallette.textColor,
                     fontSize: 16,

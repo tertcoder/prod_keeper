@@ -1,10 +1,18 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prod_keeper/core/theme/color_pallette.dart';
+import 'package:prod_keeper/domain/entity/product.dart';
+import 'package:prod_keeper/presentation/blocs/bloc/product_bloc.dart';
+import 'package:prod_keeper/presentation/widget/product_form.dart';
 
 class ProductTile extends StatelessWidget {
-  const ProductTile({super.key});
+  final Product product;
+  const ProductTile({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +35,20 @@ class ProductTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  child: Image.asset(
-                    "assets/images/T-shirt.png",
-                    width: 120,
-                    height: 68,
-                    fit: BoxFit.cover,
-                  ),
+                  child: product.image.startsWith(
+                          "/data/user/0/com.prodkeeper.prod_keeper/cache/")
+                      ? Image.file(
+                          File(product.image),
+                          width: 120,
+                          height: 68,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          product.image,
+                          width: 120,
+                          height: 68,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -40,7 +56,9 @@ class ProductTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "T-shirt",
+                      product.title.length > 15
+                          ? "${product.title.substring(0, 15)}..."
+                          : product.title,
                       style: GoogleFonts.firaSans().copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -48,7 +66,9 @@ class ProductTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "45,000.00 BIF",
+                      product.price.toString().length > 9
+                          ? "${product.price.toString().substring(0, 9)}... BIF"
+                          : "${product.price} BIF",
                       style: GoogleFonts.firaSans().copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -63,7 +83,9 @@ class ProductTile extends StatelessWidget {
           Row(
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _showUpdateProductForm(context, product);
+                },
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -81,7 +103,15 @@ class ProductTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    context.read<ProductBloc>().add(
+                          DeleteExistingProduct(
+                            product.copyWith(
+                              isDeleted: true,
+                            ),
+                          ),
+                        );
+                  },
                   child: SvgPicture.asset("assets/icons/bin.svg"),
                 ),
               ),
@@ -91,4 +121,26 @@ class ProductTile extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showUpdateProductForm(BuildContext context, Product product) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: BlocProvider.of<ProductBloc>(context),
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Center(
+              child:
+                  ProductForm(product: product), // Pass the product to the form
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
