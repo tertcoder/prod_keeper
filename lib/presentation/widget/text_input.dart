@@ -3,7 +3,14 @@ import 'package:prod_keeper/core/theme/color_pallette.dart';
 
 class TextInput extends StatelessWidget {
   final String hintText;
-  const TextInput({super.key, required this.hintText});
+  final TextInputType keyboardType;
+  final TextEditingController controller;
+  const TextInput({
+    super.key,
+    required this.hintText,
+    required this.controller,
+    this.keyboardType = TextInputType.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +25,7 @@ class TextInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
+      keyboardType: keyboardType,
     );
   }
 }
