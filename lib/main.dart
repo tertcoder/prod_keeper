@@ -12,7 +12,6 @@ import 'package:prod_keeper/domain/usecases/get_all_products.dart';
 import 'package:prod_keeper/domain/usecases/update_product.dart';
 import 'package:prod_keeper/presentation/blocs/bloc/product_bloc.dart';
 import 'package:prod_keeper/presentation/pages/splash_screen.dart';
-import 'package:prod_keeper/presentation/widget/app_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
