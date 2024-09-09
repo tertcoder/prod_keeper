@@ -83,102 +83,96 @@ class _ProductFormState extends State<ProductForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: ColorPallette.whiteColor,
-          ),
+    return Scaffold(
+      backgroundColor: ColorPallette.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: ColorPallette.backgroundColor,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      width: 145,
-                      height: 125,
-                      decoration: BoxDecoration(
-                        color: ColorPallette.textColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Center(
-                        child: _selectedImage == null
-                            ? SvgPicture.asset("assets/icons/img.svg")
-                            : _selectedImage!.path.startsWith(
-                                    "/data/user/0/com.prodkeeper.prod_keeper/cache/")
-                                ? Image.file(
-                                    _selectedImage!,
-                                    fit: BoxFit.cover,
-                                    width: 145,
-                                    height: 125,
-                                  )
-                                : Image.asset(
-                                    _selectedImage!.path,
-                                    fit: BoxFit.cover,
-                                    width: 145,
-                                    height: 125,
-                                  ),
-                      ),
-                    ),
+              GestureDetector(
+                onTap: _pickImage,
+                child: Container(
+                  width: double.infinity,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: ColorPallette.textColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(width: 10),
-                  Form(
-                    key: formKey,
-                    child: Expanded(
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'required!';
-                              }
-                              return null;
-                            },
-                            cursorColor: ColorPallette.textColor,
-                            decoration: InputDecoration(
-                              fillColor:
-                                  ColorPallette.textColor.withOpacity(0.1),
-                              filled: true,
-                              hintText: "Product name",
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(12),
+                  clipBehavior: Clip.antiAlias,
+                  child: Center(
+                    child: _selectedImage == null
+                        ? SvgPicture.asset("assets/icons/img.svg")
+                        : _selectedImage!.path.startsWith(
+                                "/data/user/0/com.prodkeeper.prod_keeper/cache/")
+                            ? Image.file(
+                                _selectedImage!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 250,
+                              )
+                            : Image.asset(
+                                _selectedImage!.path,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 250,
                               ),
-                            ),
-                            controller: _titleController,
-                          ),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'required!';
-                              }
-                              return null;
-                            },
-                            cursorColor: ColorPallette.textColor,
-                            decoration: InputDecoration(
-                              fillColor:
-                                  ColorPallette.textColor.withOpacity(0.1),
-                              filled: true,
-                              hintText: "Price",
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            controller: _priceController,
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'required!';
+                        }
+                        return null;
+                      },
+                      cursorColor: ColorPallette.textColor,
+                      decoration: InputDecoration(
+                        fillColor: ColorPallette.textColor.withOpacity(0.1),
+                        filled: true,
+                        hintText: "Product name",
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
+                      controller: _titleController,
                     ),
-                  )
-                ],
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'required!';
+                        }
+                        return null;
+                      },
+                      cursorColor: ColorPallette.textColor,
+                      decoration: InputDecoration(
+                        fillColor: ColorPallette.textColor.withOpacity(0.1),
+                        filled: true,
+                        hintText: "Price",
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      controller: _priceController,
+                      keyboardType: TextInputType.number,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               GestureDetector(
@@ -205,7 +199,7 @@ class _ProductFormState extends State<ProductForm> {
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

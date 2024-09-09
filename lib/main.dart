@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Prod Keeper',
       theme: ThemeData(textTheme: GoogleFonts.firaSansTextTheme()),
+      // home: const SplashScreen(),
       home: const SplashScreen(),
     );
   }

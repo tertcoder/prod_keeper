@@ -84,7 +84,11 @@ class ProductTile extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  _showUpdateProductForm(context, product);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProductForm(product: product),
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
