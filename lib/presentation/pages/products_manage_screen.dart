@@ -28,11 +28,7 @@ class ProductsManageScreen extends StatelessWidget {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ProductForm(),
-                      ),
-                    ),
+                    onTap: () => _showAddProductForm(context),
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
